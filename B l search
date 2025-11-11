@@ -1,0 +1,22 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int p(char c){return(c=='+'||c=='-')?1:(c=='*'||c=='/')?2:0;}
+
+string in2post(string s){
+    stack<char> st; string r="";
+    for(char c:s){
+        if(isalnum(c)) r+=c;
+        else if(c=='(') st.push(c);
+        else if(c==')'){while(st.top()!='('){r+=st.top();st.pop();}st.pop();}
+        else{while(!st.empty()&&p(st.top())>=p(c)){r+=st.top();st.pop();}st.push(c);}
+    }
+    while(!st.empty()){r+=st.top();st.pop();}
+    return r;
+}
+
+int main(){
+    string e="A+B*C";
+    cout<<"Infix: "<<e<<"\nPostfix: "<<in2post(e);
+}
